@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<title>California Fires Visualizer</title>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .grid-temp {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 20px;
+  align-items: center;
+  padding-top: 90px;
+}
+
+.Header {
+  text-align: center;
+  background-color: #3b757c;
+  padding-right: 90px;
+  padding-left: 90px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+}
+
+input[type=submit] {
+  background-color: #3b757c;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #519db4;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+  
+  </style>
+  </head>
+  <body>
+
+  
+  <div class="grid-temp">
+    <div class="Header">
+      <h1 style="color: white; border: 5px solid white; padding: 30px; border-radius: 10px;">California WildFire Map</h2>
+      <p style="color: white;">CS 411 Semester Project</p>
+    </div>
+    <div class="buttons-wrapper">
+      <h2 style="text-align: center; color: rgb(59, 59, 59); padding-top: 100px; padding-bottom: 20px;">To go to the specific forms:</h2>
+      <div class="buttons">
+        <input type="submit" onClick="location.href='http://localhost:5000/fires-form'" value="Fires Form">
+        <input type="submit" onClick="location.href='http://localhost:5000/users-form'" value="Users Form">
+        <input type="submit" onClick="location.href='http://localhost:5000/archive-form'" value="Archives Form">
+        <input type="submit" onClick="location.href='http://localhost:5000/admin-unit-form'" value="Admin Unit Resources Form">
+        <input type="submit" onClick="location.href='http://localhost:5000/counties-form'" value="Counties Form">
+      </div>
+    </div>
+  </div>
+  
+  
+<!-- 
+</body>
+</html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>California Map</title>
+    <script src="UI/mapdata.js"></script>
+	  <script src="UI/statemap.js"></script>
+	<link rel="stylesheet" href="UI/style.css">
+  </head>
+	<body>
+		<div>
+			<h1>HTML5/JavaScript Map</h1>
+			<div style="max-width: 1000px"> Keep map above fold
+				<div id="map"></div>
+			</div>
+		</div>
+	</body>
+</html> -->

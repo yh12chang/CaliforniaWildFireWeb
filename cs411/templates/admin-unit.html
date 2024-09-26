@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+input[type=text], input[type=number], select, textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #3b757c;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #519db4;
+}
+
+.grid-temp {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 20px;
+  align-items: center;
+  padding-top: 50px;
+}
+
+.admin-wrapper {
+  border-radius: 5px;
+  width: 500px;
+  left: 50%;
+  background-color: rgb(221, 232, 238);
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.admin-heading {
+  color: rgb(18, 65, 92);
+  text-align: center;
+  font-size: x-large;
+  text-decoration: underline solid 3px;
+}
+
+.result-wrapper {
+  border-radius: 5px;
+  background-color:  #3b757c; 
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.adQ {
+  padding-top:570px;
+}
+
+.result-head {
+  color: white;
+  text-align: center;
+  font-style: italic;
+  padding: 10px;
+}
+
+#tData {
+  color: white;
+  text-align: right;
+}
+
+#tHead {
+  color: white;
+  text-align: right;
+}
+
+p {
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+table, th, td {
+  border: 3px solid white;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+</style>
+</head>
+<body>
+
+<script>
+  $(document).ready(function() {
+    $(".ad-form").submit( function(e) {
+      $("<input />").attr("type", "hidden")
+          .attr("name", "_method")
+          .attr("value", document.getElementById('operation').value)
+          .appendTo(".ad-form");
+          if (document.getElementById('operation').value === "GET") {
+            document.getElementById('ad-form').setAttribute("method",document.getElementById('operation').value)
+          }
+      return true;
+    });
+  });
+</script>
+
+<div class="grid-temp">
+
+  <div class="results-wrapper">
+    <input type="submit" onClick="location.href='http://localhost:5000/'" value="Return to Main Page">
+  </div>
+
+  <div class="admin-wrapper">
+    <div class="admin-heading">
+      <h3>Admin Unit Resources Form</h3>
+    </div>
+  
+    <label for="operation">Choose an Operation:</label>
+    <select id="operation" name="Operator">
+      <option value="GET">Get</option>
+      <option value="POST">Insert</option>
+      <option value="PUT">Update</option>
+      <option value="DELETE">Delete</option>
+    </select> 
+  
+  
+    <div class="buttons">
+      <form id="ad-form" class="ad-form" action="/admin-unit-resources" method="POST">
+        <label for="fire_id">fire_id: </label>
+        <input type="text" id="fire_id" name="fire_id"><br><br>
+
+        <label for="admin_unit_name">admin_unit_name: </label>
+        <input type="text" id="admin_unit_name" name="admin_unit_name"><br><br>
+
+        <label for="air_tankers">air_tankers: </label>
+        <input type="text" id="air_tankers" name="air_tankers"><br><br>
+
+        <label for="dozers">dozers: </label>
+        <input type="text" id="dozers" name="dozers"><br><br>
+
+        <label for="engines">engines: </label>
+        <input type="text" id="engines" name="engines"><br><br>
+
+        <label for="helicopter">helicopter: </label>
+        <input type="text" id="helicopter" name="helicopter"><br><br>
+
+        <label for="water_tenders">water_tenders: </label>
+        <input type="text" id="water_tenders" name="water_tenders"><br><br>
+
+        <input type="submit" value="Submit"><br>
+      </form>
+  
+      <div class="adQ">
+        <form action="/advanced/wan">
+          <input type="submit" value="Advanced Query">
+        </form>
+      </div> 
+    </div>
+  </div>
+
+  <div class="result-wrapper">
+    <form>
+      <div>
+        <h3 class="result-head">Results</h3>
+      </div>
+      <p> <b> {{ notfound }} </b> </p>
+      <p> <b> {{ getResult }} </b> </p>
+      <p> <b> {{ message }} </b> </p>
+      <table>
+        <tr>
+          {% for header in columns %}
+          <th id="tHead"> {{ header }} </th>
+          {% endfor %}
+        </tr>
+        <tr>
+          {% for cell in data %}
+          <td id="tData"> {{ cell }} </td>
+          {% endfor %}
+        </tr>
+      </table>
+    </form>
+    <form>
+      <table>
+        <tr>
+          {% for header in columns_adv %}
+          <th id="tHead"> {{ header }} </th>
+          {% endfor %}
+        </tr>
+        {% for row in data_adv%}
+        <tr>
+          {% for cell in row %}
+          <td id="tData"> {{ cell }} </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </form>
+  </div>
+  
+</div>
+
+
+</body>
+
+</html>
+
+<!-- <!DOCTYPE html>
+<html>
+<body>
+
+<h1>Admin Unit Resources Table</h1>
+<form action="/admin-unit-resources" method="GET">
+  <h3> Get </h3>
+
+  <label for="fire_id">fire_id: </label>
+  <input type="text" id="fire_id" name="fire_id"><br><br>
+
+  <input type="submit" value="Get">
+</form>
+
+<form action="/admin-unit-resources" method="POST" enctype="application/json">
+  <h3> Update </h3>
+
+  <label for="fire_id">fire_id: </label>
+  <input type="text" id="fire_id" name="fire_id"><br><br>
+
+  <label for="admin_unit_name">admin_unit_name: </label>
+  <input type="text" id="admin_unit_name" name="admin_unit_name"><br><br>
+
+  <label for="air_tankers">air_tankers: </label>
+  <input type="text" id="air_tankers" name="air_tankers"><br><br>
+
+  <label for="dozers">dozers: </label>
+  <input type="text" id="dozers" name="dozers"><br><br>
+
+  <label for="engines">engines: </label>
+  <input type="text" id="engines" name="engines"><br><br>
+
+  <label for="helicopter">helicopter: </label>
+  <input type="text" id="helicopter" name="helicopter"><br><br>
+
+  <label for="water_tenders">water_tenders: </label>
+  <input type="text" id="water_tenders" name="water_tenders"><br><br>
+  
+  <input type='hidden' name="_method" value="PUT">
+  <input type="submit" value="Update"><br>
+</form>
+
+<form action="/admin-unit-resources" method="POST">
+  <h3>Insert</h3>
+  
+  <label for="fire_id">fire_id: </label>
+  <input type="text" id="fire_id" name="fire_id"><br><br>
+  
+  <label for="admin_unit_name">admin_unit_name: </label>
+  <input type="text" id="admin_unit_name" name="admin_unit_name"><br><br>
+
+  <label for="air_tankers">air_tankers: </label>
+  <input type="text" id="air_tankers" name="air_tankers"><br><br>
+
+  <label for="dozers">dozers: </label>
+  <input type="text" id="dozers" name="dozers"><br><br>
+
+  <label for="engines">engines: </label>
+  <input type="text" id="engines" name="engines"><br><br>
+
+  <label for="helicopter">helicopter: </label>
+  <input type="text" id="helicopter" name="helicopter"><br><br>
+
+  <label for="water_tenders">water_tenders: </label>
+  <input type="text" id="water_tenders" name="water_tenders"><br><br>
+
+  <input type='hidden' name="_method" value="POST">
+  <input type="submit" value="Insert">
+</form>
+
+<form action="/admin-unit-resources" method="POST">
+  <h3> Delete </h3>
+  <label for="fire_id">fire_id: </label>
+  <input type="text" id="fire_id" name="fire_id"><br><br>
+
+  <input type='hidden' name="_method" value="DELETE">
+  <input type="submit" value="Delete">
+</form>
+
+<form action="/advanced/wan">
+  <h3>Advanced Wan</h3>
+  <input type="submit" value="Execute!"> 
+</form>
+
+</body>
+</html> -->

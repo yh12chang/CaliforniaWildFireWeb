@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+input[type=text], input[type=number], select, textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #3b757c;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #519db4;
+}
+
+.grid-temp {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 20px;
+  align-items: center;
+  padding-top: 50px;
+}
+
+.archive-wrapper {
+  border-radius: 5px;
+  width: 500px;
+  left: 50%;
+  background-color: rgb(221, 232, 238);
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.archive-heading {
+  color: rgb(18, 65, 92);
+  text-align: center;
+  font-size: x-large;
+  text-decoration: underline solid 3px;
+}
+
+.result-wrapper {
+  border-radius: 5px;
+  background-color:  #3b757c; 
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.adQ {
+  padding-top:410px;
+}
+
+.result-head {
+  color: white;
+  text-align: center;
+  font-style: italic;
+  padding: 10px;
+}
+
+#tData {
+  color: white;
+  text-align: right;
+}
+
+#tHead {
+  color: white;
+  text-align: right;
+}
+
+p {
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+table, th, td {
+  border: 3px solid white;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+</style>
+</head>
+<body>
+
+<script>
+  $(document).ready(function() {
+    $(".archive-form").submit( function(e) {
+      $("<input />").attr("type", "hidden")
+          .attr("name", "_method")
+          .attr("value", document.getElementById('operation').value)
+          .appendTo(".archive-form");
+          if (document.getElementById('operation').value === "GET") {
+            document.getElementById('archive-form').setAttribute("method",document.getElementById('operation').value)
+          }
+      return true;
+    });
+  });
+</script>
+
+<div class="grid-temp">
+
+  <div class="results-wrapper">
+    <input type="submit" onClick="location.href='http://localhost:5000/'" value="Return to Main Page">
+  </div>
+
+  <div class="archive-wrapper">
+    <div class="archive-heading">
+      <h3>Archive Form</h3>
+    </div>
+  
+    <label for="operation">Choose an Operation:</label>
+    <select id="operation" name="Operator">
+      <option value="GET">Get</option>
+      <option value="POST">Insert</option>
+      <option value="PUT">Update</option>
+      <option value="DELETE">Delete</option>
+    </select> 
+  
+  
+    <div class="buttons">
+      <form id="archive-form" class="archive-form" action="/archive" method="POST">
+        <text>Fire ID: </text><input type="text" id="fire_id" name="fire_id"><br><br>
+        <text>Canonical URL: </text><input type="text" id="canonical_url" name="canonical_url"><br><br>
+        <text>Archive Year: </text><input type="number" id="archive_year" name="archive_year"><br><br>
+        <text>Updated Date: </text><input type="text" id="updated_date" name="updated_date"><br><br>
+        <text>Last Updated By: </text><input type="text" id="last_updated_by" name="last_updated_by"><br><br>
+        <input type="submit" value="Submit">
+      </form>
+  
+      <div class="adQ">
+        <form action="/advanced/john">
+          <input type="submit" value="Advanced Query">
+        </form>
+      </div> 
+    </div>
+  </div>
+
+  <div class="result-wrapper">
+    <form>
+      <div>
+        <h3 class="result-head">Results</h3>
+      </div>
+      <p> <b> {{ notfound }} </b> </p>
+      <p> <b> {{ getResult }} </b> </p>
+      <p> <b> {{ message }} </b> </p>
+      <table>
+        <tr>
+          {% for header in columns %}
+          <th id="tHead"> {{ header }} </th>
+          {% endfor %}
+        </tr>
+        <tr>
+          {% for cell in data %}
+          <td id="tData"> {{ cell }} </td>
+          {% endfor %}
+        </tr>
+      </table>
+    </form>
+    <form>
+      <table>
+        <tr>
+          {% for header in columns_adv %}
+          <th id="tHead"> {{ header }} </th>
+          {% endfor %}
+        </tr>
+        {% for row in data_adv%}
+        <tr>
+          {% for cell in row %}
+          <td id="tData"> {{ cell }} </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </form>
+  </div>
+  
+</div>
+
+
+</body>
+
+</html>
+
+
+<!-- <htmL>
+  <body>
+    <h1>Archive Table</h1>
+    <h2>GET form</h2>
+    <form action = '/archive' method = "GET">
+      <text>Fire ID: </text><input type="text" id="fire_id" name="fire_id"><br><br>
+      <input type="submit" value="Submit">
+    </form>
+
+    <h2>DELETE form</h2>
+    <form action = '/archive' method = "POST">
+      <text>Fire ID: </text><input type="text" id="fire_id" name="fire_id"><br><br>
+      <input type='hidden' name="_method" value="DELETE">
+      <input type="submit" value="Submit">
+    </form>
+
+    <h2>POST form</h2>
+    <form action = '/archive' method = "POST">
+      <text>Fire ID: </text><input type="text" id="fire_id" name="fire_id"><br><br>
+      <text>Canonical URL: </text><input type="text" id="canonical_url" name="canonical_url"><br><br>
+      <text>Archive Year: </text><input type="number" id="archive_year" name="archive_year"><br><br>
+      <text>Updated Date: </text><input type="text" id="updated_date" name="updated_date"><br><br>
+      <text>Last Updated By: </text><input type="text" id="last_updated_by" name="last_updated_by"><br><br>
+      <input type='hidden' name="_method" value="POST">
+      <input type="submit" value="Submit">
+    </form>
+
+    <h2>PUT form</h2>
+    <form action = '/archive' method = "POST">
+      <text>Fire ID: </text><input type="text" id="fire_id" name="fire_id"><br><br>
+      <text>Canonical URL: </text><input type="text" id="canonical_url" name="canonical_url"><br><br>
+      <text>Archive Year: </text><input type="number" id="archive_year" name="archive_year"><br><br>
+      <text>Updated Date: </text><input type="text" id="updated_date" name="updated_date"><br><br>
+      <text>Last Updated By: </text><input type="text" id="last_updated_by" name="last_updated_by"><br><br>
+      <input type='hidden' name="_method" value="PUT">
+      <input type="submit" value="Submit">
+    </form>
+
+    <h2>Advanced John</h2>
+    <form action="/advanced/john">
+      <input type="submit" value="Execute!"> 
+    </form>
+  </body>
+</html>
+
+
+ -->

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+input[type=text], input[type=number], select, textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #3b757c;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #519db4;
+}
+
+input[type=button]:hover {
+  background-color: #519db4;
+}
+
+.grid-temp {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 20px;
+  align-items: center;
+  padding-top: 50px;
+}
+
+.archive-wrapper {
+  border-radius: 5px;
+  width: 700px;
+  left: 50%;
+  background-color: rgb(221, 232, 238);
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.archive-heading {
+  color: rgb(18, 65, 92);
+  text-align: center;
+  font-size: x-large;
+  text-decoration: underline solid 3px;
+}
+
+.result-wrapper {
+  border-radius: 5px;
+  background-color:  #3b757c; 
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.adQ {
+  padding-top:2215px;
+}
+
+.result-head {
+  color: white;
+  text-align: center;
+  font-style: italic;
+  padding: 10px;
+}
+
+#tData {
+  color: white;
+  text-align: right;
+}
+
+#tHead {
+  color: white;
+  text-align: right;
+}
+
+p {
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+table, th, td {
+  border: 3px solid white;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+</style>
+</head>
+<body>
+
+<script>
+  $(document).ready(function() {
+    $(".fires-form").submit( function(e) {
+      $("<input />").attr("type", "hidden")
+          .attr("name", "_method")
+          .attr("value", document.getElementById('operation').value)
+          .appendTo(".fires-form");
+          if (document.getElementById('operation').value === "GET") {
+            document.getElementById('fires-form').setAttribute("method",document.getElementById('operation').value)
+          }
+      return true;
+    });
+  });
+</script>
+
+<div class="grid-temp">
+
+  <div class="results-wrapper">
+      <input type="submit" onClick="location.href='http://localhost:5000/'" value="Return to Main Page">
+  </div>
+
+  <div class="archive-wrapper">
+    <div class="archive-heading">
+      <h3>Fires Form</h3>
+    </div>
+  
+    <label for="operation">Choose an Operation:</label>
+    <select id="operation" name="Operator">
+      <option value="GET">Get</option>
+      <option value="POST">Insert</option>
+      <option value="PUT">Update</option>
+      <option value="DELETE">Delete</option>
+    </select> 
+  
+  
+    <div class="buttons">
+      <form id="fires-form" class="fires-form" action="/fires" method="POST">
+        <label for="fire_id"> Fire_id: </label>
+        <input type="text" id="fire_id" name="fire_id"><br><br>
+        <label for="fire_name"> Fire_name: </label>
+        <input type="text" id="fire_name" name="fire_name"><br><br>
+        <label for="county_id"> County_id: </label>
+        <input type="number" id="county_id" name="county_id"><br><br>
+        <label for="acres_burned"> Acres_burned: </label>
+        <input type="number" id="acres_burned" name="acres_burned"><br><br>
+        <label for="active"> Active: </label>
+        <input type="text" id="active" name="active"><br><br>
+        <label for="cal_fire_statement"> Cal_fire_statement: </label>
+        <input type="text" id="cal_fire_statement" name="cal_fire_statement"><br><br>
+        <label for="condition_statement"> Condition_statement: </label>
+        <input type="text" id="condition_statement" name="condition_statement"><br><br>
+        <label for="control_statement"> Control_statement: </label>
+        <input type="text" id="control_statement" name="control_statement"><br><br>
+        <label for="extinguished"> Extinguished: </label>
+        <input type="text" id="extinguished" name="extinguished"><br><br>
+        <label for="fatalities"> Fatalities: </label>
+        <input type="number" id="fatalities" name="fatalities"><br><br>
+        <label for="featured"> Featured: </label>
+        <input type="text" id="featured" name="featured"><br><br>
+        <label for="fuel_type"> Fuel_type: </label>
+        <input type="text" id="fuel_type" name="fuel_type"><br><br>
+        <label for="injuries"> Injuries: </label>
+        <input type="number" id="injuries" name="injuries"><br><br>
+        <label for="latitude"> Latitude: </label>
+        <input type="text" id="latitude" name="latitude"><br><br>
+        <label for="location"> Location: </label>
+        <input type="text" id="location" name="location"><br><br>
+        <label for="longitude"> Longitude: </label>
+        <input type="text" id="longitude" name="longitude"><br><br>
+        <label for="major_incident"> Major_incident: </label>
+        <input type="text" id="major_incident" name="major_incident"><br><br>
+        <label for="percent_contained"> Percent_contained: </label>
+        <input type="number" id="percent_contained" name="percent_contained"><br><br>
+        <label for="personnel_involved"> Personnel_involved: </label>
+        <input type="number" id="personnel_involved" name="personnel_involved"><br><br>
+        <label for="search_description"> Search_description: </label>
+        <input type="text" id="search_description" name="search_description"><br><br>
+        <label for="search_keywords"> Search_keywords: </label>
+        <input type="text" id="search_keywords" name="search_keywords"><br><br>
+        <label for="started_date"> Started_date: </label>
+        <input type="text" id="started_date" name="started_date"><br><br>
+        <label for="status"> Status: </label>
+        <input type="text" id="status" name="status"><br><br>
+        <label for="structures_damaged"> Structures_damaged: </label>
+        <input type="number" id="structures_damaged" name="structures_damaged"><br><br>
+        <label for="structures_destroyed"> Structures_destroyed: </label>
+        <input type="number" id="structures_destroyed" name="structures_destroyed"><br><br>
+        <label for="structures_evacuated"> Structures_evacuated: </label>
+        <input type="number" id="structures_evacuated" name="structures_evacuated"><br><br>
+        <label for="structures_threatened"> Structures_threatened: </label>
+        <input type="number" id="structures_threatened" name="structures_threatened"><br><br>
+        <input type="submit" value="Submit"><br>
+      </form>
+      <div class="adQ">
+        <form action="/advanced/alex">
+          <input type="submit" value="Advanced Query">
+        </form>
+      </div> 
+    </div>
+  </div>
+
+  <div class="result-wrapper">
+    <form>
+      <div>
+        <h3 class="result-head">Results</h3>
+      </div>
+      <p> <b> {{ notfound }} </b> </p>
+      <p> <b> {{ getResult }} </b> </p>
+      <p> <b> {{ message }} </b> </p>
+      <table>
+        <tr>
+          {% for header in columns %}
+          <th id="tHead"> {{ header }} </th>
+          {% endfor %}
+        </tr>
+        <tr>
+          {% for cell in data %}
+          <td id="tData"> {{ cell }} </td>
+          {% endfor %}
+        </tr>
+      </table>
+    </form>
+    <form>
+      <table>
+        <tr>
+          {% for header in columns_adv %}
+          <th id="tHead"> {{ header }} </th>
+          {% endfor %}
+        </tr>
+        {% for row in data_adv%}
+        <tr>
+          {% for cell in row %}
+          <td id="tData"> {{ cell }} </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </form>
+  </div>
+  
+</div>
+
+
+</body>
+
+</html>
+
+<!-- <html>
+<body>
+
+
+<h1>Fires Table</h1>
+<form action="/fires" method="GET">
+  <h3> Get </h3>
+  <label for="fire_id"> Fire_id </label>
+  <input type="text" id="fire_id" name="fire_id"><br><br>
+  <input type="submit" value="Get">
+</form>
+
+<form action="/fires" method="POST">
+  <h3> Update </h3>
+  <label for="fire_id"> Fire_id: </label>
+  <input type="text" id="fire_id" name="fire_id"><br><br>
+  <label for="fire_name"> Fire_name: </label>
+  <input type="text" id="fire_name" name="fire_name"><br><br>
+  <label for="county_id"> County_id: </label>
+  <input type="number" id="county_id" name="county_id"><br><br>
+  <label for="acres_burned"> Acres_burned: </label>
+  <input type="number" id="acres_burned" name="acres_burned"><br><br>
+  <label for="active"> Active: </label>
+  <input type="text" id="active" name="active"><br><br>
+  <label for="cal_fire_statement"> Cal_fire_statement: </label>
+  <input type="text" id="cal_fire_statement" name="cal_fire_statement"><br><br>
+  <label for="condition_statement"> Condition_statement: </label>
+  <input type="text" id="condition_statement" name="condition_statement"><br><br>
+  <label for="control_statement"> Control_statement: </label>
+  <input type="text" id="control_statement" name="control_statement"><br><br>
+  <label for="extinguished"> Extinguished: </label>
+  <input type="text" id="extinguished" name="extinguished"><br><br>
+  <label for="fatalities"> Fatalities: </label>
+  <input type="number" id="fatalities" name="fatalities"><br><br>
+  <label for="featured"> Featured: </label>
+  <input type="text" id="featured" name="featured"><br><br>
+  <label for="fuel_type"> Fuel_type: </label>
+  <input type="text" id="fuel_type" name="fuel_type"><br><br>
+  <label for="injuries"> Injuries: </label>
+  <input type="number" id="injuries" name="injuries"><br><br>
+  <label for="latitude"> Latitude: </label>
+  <input type="text" id="latitude" name="latitude"><br><br>
+  <label for="location"> Location: </label>
+  <input type="text" id="location" name="location"><br><br>
+  <label for="longitude"> Longitude: </label>
+  <input type="text" id="longitude" name="longitude"><br><br>
+  <label for="major_incident"> Major_incident: </label>
+  <input type="text" id="major_incident" name="major_incident"><br><br>
+  <label for="percent_contained"> Percent_contained: </label>
+  <input type="number" id="percent_contained" name="percent_contained"><br><br>
+  <label for="personnel_involved"> Personnel_involved: </label>
+  <input type="number" id="personnel_involved" name="personnel_involved"><br><br>
+  <label for="search_description"> Search_description: </label>
+  <input type="text" id="search_description" name="search_description"><br><br>
+  <label for="search_keywords"> Search_keywords: </label>
+  <input type="text" id="search_keywords" name="search_keywords"><br><br>
+  <label for="started_date"> Started_date: </label>
+  <input type="text" id="started_date" name="started_date"><br><br>
+  <label for="status"> Status: </label>
+  <input type="text" id="status" name="status"><br><br>
+  <label for="structures_damaged"> Structures_damaged: </label>
+  <input type="number" id="structures_damaged" name="structures_damaged"><br><br>
+  <label for="structures_destroyed"> Structures_destroyed: </label>
+  <input type="number" id="structures_destroyed" name="structures_destroyed"><br><br>
+  <label for="structures_evacuated"> Structures_evacuated: </label>
+  <input type="number" id="structures_evacuated" name="structures_evacuated"><br><br>
+  <label for="structures_threatened"> Structures_threatened: </label>
+  <input type="number" id="structures_threatened" name="structures_threatened"><br><br>
+
+  <input type='hidden' name="_method" value="PUT">
+  <input type="submit" value="Update"><br>
+</form>
+
+<form action="/fires" method="POST">
+  <h3> Insert </h3>
+  <label for="fire_id"> Fire_id: </label>
+  <input type="text" id="fire_id" name="fire_id"><br><br>
+  <label for="fire_name"> Fire_name: </label>
+  <input type="text" id="fire_name" name="fire_name"><br><br>
+  <label for="county_id"> County_id: </label>
+  <input type="number" id="county_id" name="county_id"><br><br>
+  <label for="acres_burned"> Acres_burned: </label>
+  <input type="number" id="acres_burned" name="acres_burned"><br><br>
+  <label for="active"> Active: </label>
+  <input type="text" id="active" name="active"><br><br>
+  <label for="cal_fire_statement"> Cal_fire_statement: </label>
+  <input type="text" id="cal_fire_statement" name="cal_fire_statement"><br><br>
+  <label for="condition_statement"> Condition_statement: </label>
+  <input type="text" id="condition_statement" name="condition_statement"><br><br>
+  <label for="control_statement"> Control_statement: </label>
+  <input type="text" id="control_statement" name="control_statement"><br><br>
+  <label for="extinguished"> Extinguished: </label>
+  <input type="text" id="extinguished" name="extinguished"><br><br>
+  <label for="fatalities"> Fatalities: </label>
+  <input type="number" id="fatalities" name="fatalities"><br><br>
+  <label for="featured"> Featured: </label>
+  <input type="text" id="featured" name="featured"><br><br>
+  <label for="fuel_type"> Fuel_type: </label>
+  <input type="text" id="fuel_type" name="fuel_type"><br><br>
+  <label for="injuries"> Injuries: </label>
+  <input type="number" id="injuries" name="injuries"><br><br>
+  <label for="latitude"> Latitude: </label>
+  <input type="text" id="latitude" name="latitude"><br><br>
+  <label for="location"> Location: </label>
+  <input type="text" id="location" name="location"><br><br>
+  <label for="longitude"> Longitude: </label>
+  <input type="text" id="longitude" name="longitude"><br><br>
+  <label for="major_incident"> Major_incident: </label>
+  <input type="text" id="major_incident" name="major_incident"><br><br>
+  <label for="percent_contained"> Percent_contained: </label>
+  <input type="number" id="percent_contained" name="percent_contained"><br><br>
+  <label for="personnel_involved"> Personnel_involved: </label>
+  <input type="number" id="personnel_involved" name="personnel_involved"><br><br>
+  <label for="search_description"> Search_description: </label>
+  <input type="text" id="search_description" name="search_description"><br><br>
+  <label for="search_keywords"> Search_keywords: </label>
+  <input type="text" id="search_keywords" name="search_keywords"><br><br>
+  <label for="started_date"> Started_date: </label>
+  <input type="text" id="started_date" name="started_date"><br><br>
+  <label for="status"> Status: </label>
+  <input type="text" id="status" name="status"><br><br>
+  <label for="structures_damaged"> Structures_damaged: </label>
+  <input type="number" id="structures_damaged" name="structures_damaged"><br><br>
+  <label for="structures_destroyed"> Structures_destroyed: </label>
+  <input type="number" id="structures_destroyed" name="structures_destroyed"><br><br>
+  <label for="structures_evacuated"> Structures_evacuated: </label>
+  <input type="number" id="structures_evacuated" name="structures_evacuated"><br><br>
+  <label for="structures_threatened"> Structures_threatened: </label>
+  <input type="number" id="structures_threatened" name="structures_threatened"><br><br>
+
+  <input type='hidden' name="_method" value="POST">
+  <input type="submit" value="Insert"><br>
+</form>
+
+
+<form action="/fires" method="POST">
+  <h3> Delete </h3>
+  <label for="fire_id"> Fire_id </label>
+  <input type="text" id="fire_id" name="fire_id"><br><br>
+
+  <input type='hidden' name="_method" value="DELETE">
+  <input type="submit" value="Delete">
+</form>
+
+</body>
+</html> -->
