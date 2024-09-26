@@ -1,0 +1,32 @@
+BEFORE INDEX
+
+| -> Limit: 15 row(s)  (actual time=2.091..2.093 rows=15 loops=1)
+    -> Sort row IDs: <temporary>.number_of_fires DESC, limit input to 15 row(s) per chunk  (actual time=2.090..2.091 rows=15 loops=1)
+        -> Table scan on <temporary>  (actual time=0.001..0.007 rows=53 loops=1)
+            -> Temporary table  (actual time=2.049..2.059 rows=53 loops=1)
+                -> Group aggregate: group_concat(F.fire_name separator ','), count(F.fire_id), sum(F.injuries), sum(F.fatalities)  (actual time=1.912..2.001 rows=53 loops=1)
+                    -> Sort row IDs: <temporary>.admin_unit_name  (actual time=1.894..1.906 rows=98 loops=1)
+                        -> Table scan on <temporary>  (actual time=0.001..0.014 rows=98 loops=1)
+                            -> Temporary table  (actual time=1.827..1.845 rows=98 loops=1)
+                                -> Nested loop inner join  (cost=659.20 rows=1377) (actual time=0.062..1.739 rows=98 loops=1)
+                                    -> Filter: (F.injuries <> 0)  (cost=177.25 rows=1377) (actual time=0.044..1.161 rows=98 loops=1)
+                                        -> Table scan on F  (cost=177.25 rows=1530) (actual time=0.029..0.945 rows=1587 loops=1)
+                                    -> Single-row index lookup on A using PRIMARY (fire_id=F.fire_id)  (cost=0.25 rows=1) (actual time=0.006..0.006 rows=1 loops=98)
+ |
+
+
+AFTER INDEX
+
+| -> Limit: 15 row(s)  (actual time=1.753..1.755 rows=15 loops=1)
+    -> Sort row IDs: <temporary>.number_of_fires DESC, limit input to 15 row(s) per chunk  (actual time=1.752..1.753 rows=15 loops=1)
+        -> Table scan on <temporary>  (actual time=0.000..0.006 rows=53 loops=1)
+            -> Temporary table  (actual time=1.727..1.736 rows=53 loops=1)
+                -> Group aggregate: group_concat(F.fire_name separator ','), count(F.fire_id), sum(F.injuries), sum(F.fatalities)  (actual time=1.611..1.712 rows=53 loops=1)
+                    -> Sort row IDs: <temporary>.admin_unit_name  (actual time=1.594..1.606 rows=98 loops=1)
+                        -> Table scan on <temporary>  (actual time=0.001..0.013 rows=98 loops=1)
+                            -> Temporary table  (actual time=1.519..1.544 rows=98 loops=1)
+                                -> Nested loop inner join  (cost=659.20 rows=1377) (actual time=0.118..1.475 rows=98 loops=1)
+                                    -> Filter: (F.injuries <> 0)  (cost=177.25 rows=1377) (actual time=0.045..1.033 rows=98 loops=1)
+                                        -> Table scan on F  (cost=177.25 rows=1530) (actual time=0.030..0.929 rows=1587 loops=1)
+                                    -> Single-row index lookup on A using PRIMARY (fire_id=F.fire_id)  (cost=0.25 rows=1) (actual time=0.004..0.004 rows=1 loops=98)
+ |

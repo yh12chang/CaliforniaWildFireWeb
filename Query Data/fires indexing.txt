@@ -1,0 +1,9 @@
+AFTER INDEX
+
+-> Filter: (fires.fire_name = 'Easy Fire')  (cost=177.25 rows=153) (actual time=0.039..0.909 rows=1 loops=1)
+    -> Table scan on fires  (cost=177.25 rows=1530) (actual time=0.031..0.773 rows=1587 loops=1)
+
+BEFORE INDEX
+
+-> Filter: (fires.fire_name = 'Easy Fire')  (cost=177.25 rows=153) (actual time=0.037..1.056 rows=1 loops=1)
+    -> Table scan on fires  (cost=177.25 rows=1530) (actual time=0.027..0.918 rows=1587 loops=1)

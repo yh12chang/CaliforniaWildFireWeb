@@ -1,0 +1,15 @@
+BEFORE INDEX
+
+
+AFTER INDEX
+-> Limit: 15 row(s)  (actual time=1.630..1.632 rows=15 loops=1)
+    -> Sort row IDs: <temporary>.number_of_fires DESC, limit input to 15 row(s) per chunk  (actual time=1.629..1.631 rows=15 loops=1)
+        -> Table scan on <temporary>  (actual time=0.001..0.006 rows=53 loops=1)
+            -> Temporary table  (actual time=1.606..1.615 rows=53 loops=1)
+                -> Group aggregate: group_concat(F.fire_name separator ','), count(F.fire_id), sum(F.injuries), sum(F.fatalities)  (actual time=1.496..1.589 rows=53 loops=1)
+                    -> Sort row IDs: <temporary>.admin_unit_name  (actual time=1.479..1.491 rows=98 loops=1)
+                        -> Table scan on <temporary>  (actual time=0.001..0.015 rows=98 loops=1)
+                            -> Temporary table  (actual time=1.375..1.395 rows=98 loops=1)
+                                -> Nested loop inner join  (cost=79.71 rows=99) (actual time=0.065..1.328 rows=98 loops=1)
+                                    -> Index range scan on F using injuries_asc, with index condition: (F.injuries <> 0)  (cost=45.06 rows=99) (actual time=0.053..0.952 rows=98 loops=1)
+                                    -> Single-row index lookup on A using PRIMARY (fire_id=F.fire_id)  (cost=0.25 rows=1) (actual time=0.004..0.004 rows=1 loops=98)
