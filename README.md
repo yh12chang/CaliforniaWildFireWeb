@@ -1,9 +1,11 @@
 ## Final Project for CS 411 Database Systems
-#### <ins> Spring Semester of 2021 </ins>
+#### *Spring Semester of 2021*
 
-**Assignment Goal:** Create a web visualization to display wildfires within the state of California by utilizing Python, SQL, and Google Cloud Platform.
+### <ins> Assignment Details </ins>
+**Assignment Goal:** Create a web visualization to display wildfires within the state of California by utilizing Python, SQL, and Google Cloud Platform. <br>
+**Dataset:** Dataset was found using Kaggle and modified/re-organized to fit the scope of the project.
 
-#### <ins> Documentation </ins>
+### <ins> Documentation </ins>
 `cs411`: Includes all the Python, HTML, and Javascript files. <br>
 `Query Data`: Includes results of personal SQL Query and indexing experiment for increasing effiency of the querying process. <br>
 `Tables`: Includes all CSV files of wildfire information and all other necessary datasets for the web visualization.
